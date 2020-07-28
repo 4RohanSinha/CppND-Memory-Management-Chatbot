@@ -44,66 +44,95 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+
+//TASK 2: The Rule of Five
+//Copy constructor
 ChatBot::ChatBot(const ChatBot& source) {
-	std::cout << "ChatBot Copy Constructor\n";
-	_rootNode = source._rootNode;
-	_currentNode = source._currentNode;
-	_chatLogic = source._chatLogic;
+	std::cout << "ChatBot Copy Constructor\n"; //label function called
+	
+	_rootNode = source._rootNode; //copy the root node
+	
+	_currentNode = source._currentNode; //copy the current node
+	
+	_chatLogic = source._chatLogic; //copy the chat logic handle
+	//make sure to reset the chatbot handle to the pointer this because the _chatLogic object should now point to the new ChatBot instance
 	_chatLogic->SetChatbotHandle(this);
+	
+	//create copy of image
 	_image = new wxBitmap();
 	*_image = *source._image;
 }
 
+//copy assignment operator
 ChatBot& ChatBot::operator=(const ChatBot& source) {
-	std::cout << "ChatBot Copy Assignment Operator\n";
-	if (this == &source)
+	std::cout << "ChatBot Copy Assignment Operator\n"; //label method being called
+	if (this == &source) //return *this and don't copy below if the src and dest. are the same
 		return *this;
-	//_image is owned by ChatBot instance, so it has to be deleted by this instance as well
-	//then the source's _image is assigned
-	delete _image;
+
+	//only _image is deleted if it already exists because the ChatBot class owns it and is responsible for its allocation/deallocation
+	if (_image != NULL)
+		delete _image;
+	
+	//copy image
 	_image = new wxBitmap();
 	*_image = *source._image;
 	
-	//these pointers are not owned, so ChatBot is not responsible for deleting them
-	_rootNode = source._rootNode;
-	_currentNode = source._currentNode;
-	_chatLogic = source._chatLogic;
-	_chatLogic->SetChatbotHandle(this);
+	_rootNode = source._rootNode; //copy root node
+	
+	_currentNode = source._currentNode; //copy current node
+	
+	_chatLogic = source._chatLogic; //copy chat logic
+	_chatLogic->SetChatbotHandle(this); //reassign chat logic's chatbothandle to the pointer this
+	
 	return *this;
 }
 
+//move constructor
 ChatBot::ChatBot(ChatBot&& source) {
-	std::cout << "ChatBot Move Constructor\n";
-	_image = source._image;
-	_chatLogic = source._chatLogic;
-	_rootNode = source._rootNode;
-	_currentNode = source._currentNode;
-	_chatLogic->SetChatbotHandle(this);
+	std::cout << "ChatBot Move Constructor\n"; //label for method being called
 	
-	source._image = NULL;
+	_image = source._image; // move image
+	
+	_rootNode = source._rootNode; //move root node
+	
+	_currentNode = source._currentNode; //move current node
+
+	_chatLogic = source._chatLogic; //move chat logic
+	_chatLogic->SetChatbotHandle(this); //reassign chat logic's chatbothandle again
+	
+	//invalidate source's data (otherwise, this would not be a move constructor)
+	source._image = NULL;	
 	source._currentNode = nullptr;
 	source._rootNode = nullptr;
 	source._chatLogic = nullptr;
 }
 
+//move assignment operator
 ChatBot& ChatBot::operator=(ChatBot&& source) {
-	std::cout << "ChatBot Move Assignment Operator\n";
-	if (this == &source) {
+	std::cout << "ChatBot Move Assignment Operator\n"; //label method that was called
+	if (this == &source) { //if the src and destination are the same, don't move
 		return *this;
 	}
 
-	delete _image;
+	//only _image is deleted because the ChatBot class owns it and is responsible for its allocation/deallocation
+	if (_image != NULL)
+		delete _image;
 
-	_image = source._image;
-	_rootNode = source._rootNode;
-	_currentNode = source._currentNode;
-	_chatLogic = source._chatLogic;
-	_chatLogic->SetChatbotHandle(this);
+	_image = source._image; //move image
+	
+	_rootNode = source._rootNode; //move rootnode
+	
+	_currentNode = source._currentNode; //move currentnode
+	
+	_chatLogic = source._chatLogic; //move chat logic
+	_chatLogic->SetChatbotHandle(this); //reassign chatbothandle
 
+	//invalid src's pointers
 	source._image = NULL;
 	source._currentNode = nullptr;
 	source._rootNode = nullptr;
 	source._chatLogic = nullptr;
+
 	return *this;
 }
 ////

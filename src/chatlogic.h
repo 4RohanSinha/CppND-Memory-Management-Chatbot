@@ -17,10 +17,9 @@ private:
     ////
 
     // data handles (owned)
-    // TASK 3 CHANGE 1
-//    std::vector<GraphNode *> _nodes;
-    std::vector<std::unique_ptr<GraphNode>> _nodes;
-//    std::vector<GraphEdge *> _edges; TASK 4 CHANGE 7 - _edges no longer used because the new edges added are unique pointers that cannot be copied into the vector
+    std::vector<std::unique_ptr<GraphNode>> _nodes; //TASK 3 - exclusively owned by ChatLogic
+    //to add to vector, unique pointers will have to be moved
+    //TASK 4 - _edges vector is removed because the new edges are unique ptrs that cannot be copied into the vector
 
     ////
     //// EOF STUDENT CODE

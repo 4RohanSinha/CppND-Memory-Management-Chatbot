@@ -17,14 +17,16 @@ private:
     ////
 
     // data handles (owned)
-    // TASK 4 CHANGE 1
-    //std::vector<GraphEdge *> _childEdges;  // edges to subsequent nodes
+    // TASK 4
+    // each GraphNode exclusively owns the child edge
+    // exclusive ownership requires unique pointer
     std::vector<std::unique_ptr<GraphEdge>> _childEdges;
 
     // data handles (not owned)
+    // non-owning reference, so it should be a regular raw pointer, as opposed to the _childEdges vector
     std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
-    //TASK 5 CHANGE 1
-    //ChatBot* _chatBot;
+
+    //TASK 5 - use stack-allocated variable for ChatBot
     ChatBot _chatBot;
 
     ////
@@ -49,13 +51,17 @@ public:
     // proprietary functions
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
-    //TASK 4 CHANGE 2
-    //void AddEdgeToChildNode(GraphEdge *edge);
+
+    //TASK 4
+    //add edge to _childNodes vector
+    //must be a unique_ptr
+    //will require moving the unique ptr to the vector
     void AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge);
 
     //// STUDENT CODE
     ////
 
+    //TASK 5 - use ordinary instance of ChatBot
     void MoveChatbotHere(ChatBot chatbot);
 
     ////

@@ -17,9 +17,8 @@ private:
     //// STUDENT CODE
     ////
 
-    //exclusive ownership requires std::unique_ptr
-//    ChatLogic *_chatLogic;
-    std::unique_ptr<ChatLogic> _chatLogic;
+    //exclusive ownership requires std::unique_ptr (no one else can own this pointer at the same time)
+    std::unique_ptr<ChatLogic> _chatLogic; //TASK 1
 
     ////
     //// EOF STUDENT CODE
@@ -30,6 +29,10 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
+
+    // TASK 1
+    // use .get() to return raw pointer
+    // return raw pointer to avoid transfer of ownership of _chatLogic
     ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events

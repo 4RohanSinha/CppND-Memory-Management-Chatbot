@@ -29,10 +29,14 @@ public:
 
     //// STUDENT CODE
     ////
-    ChatBot(const ChatBot& source);
-    ChatBot& operator=(const ChatBot& source);
-    ChatBot(ChatBot&& source);
-    ChatBot& operator=(ChatBot&& source);
+    //TASK 2: The Rule of Five
+    //The destructor is already implemented, so implement the other four functions in the Rule of Five
+    //copies should use l-value references (&)
+    //moving uses r-value references (&&)
+    ChatBot(const ChatBot& source); //copy constructor
+    ChatBot& operator=(const ChatBot& source); //copy assignment operator
+    ChatBot(ChatBot&& source); //move constructor
+    ChatBot& operator=(ChatBot&& source); //move assignment operator
     ////
     //// EOF STUDENT CODE
 
