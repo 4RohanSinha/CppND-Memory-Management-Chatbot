@@ -44,7 +44,68 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& source) {
+	std::cout << "ChatBot Copy Constructor\n";
+	_rootNode = source._rootNode;
+	_currentNode = source._currentNode;
+	_chatLogic = source._chatLogic;
+	_chatLogic->SetChatbotHandle(this);
+	_image = new wxBitmap();
+	*_image = *source._image;
+}
 
+ChatBot& ChatBot::operator=(const ChatBot& source) {
+	std::cout << "ChatBot Copy Assignment Operator\n";
+	if (this == &source)
+		return *this;
+	//_image is owned by ChatBot instance, so it has to be deleted by this instance as well
+	//then the source's _image is assigned
+	delete _image;
+	_image = new wxBitmap();
+	*_image = *source._image;
+	
+	//these pointers are not owned, so ChatBot is not responsible for deleting them
+	_rootNode = source._rootNode;
+	_currentNode = source._currentNode;
+	_chatLogic = source._chatLogic;
+	_chatLogic->SetChatbotHandle(this);
+	return *this;
+}
+
+ChatBot::ChatBot(ChatBot&& source) {
+	std::cout << "ChatBot Move Constructor\n";
+	_image = source._image;
+	_chatLogic = source._chatLogic;
+	_rootNode = source._rootNode;
+	_currentNode = source._currentNode;
+	_chatLogic->SetChatbotHandle(this);
+	
+	source._image = NULL;
+	source._currentNode = nullptr;
+	source._rootNode = nullptr;
+	source._chatLogic = nullptr;
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& source) {
+	std::cout << "ChatBot Move Assignment Operator\n";
+	if (this == &source) {
+		return *this;
+	}
+
+	delete _image;
+
+	_image = source._image;
+	_rootNode = source._rootNode;
+	_currentNode = source._currentNode;
+	_chatLogic = source._chatLogic;
+	_chatLogic->SetChatbotHandle(this);
+
+	source._image = NULL;
+	source._currentNode = nullptr;
+	source._rootNode = nullptr;
+	source._chatLogic = nullptr;
+	return *this;
+}
 ////
 //// EOF STUDENT CODE
 

@@ -17,8 +17,10 @@ private:
     ////
 
     // data handles (owned)
-    std::vector<GraphNode *> _nodes;
-    std::vector<GraphEdge *> _edges;
+    // TASK 3 CHANGE 1
+//    std::vector<GraphNode *> _nodes;
+    std::vector<std::unique_ptr<GraphNode>> _nodes;
+//    std::vector<GraphEdge *> _edges; TASK 4 CHANGE 7 - _edges no longer used because the new edges added are unique pointers that cannot be copied into the vector
 
     ////
     //// EOF STUDENT CODE
